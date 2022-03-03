@@ -128,10 +128,10 @@ public class GymController {
 
 	@CrossOrigin
 	@GetMapping("/gympass/user")
-	public Object UserInfoList(@RequestParam String ownerNo) throws FindException {
+	public Object UserInfoList(@RequestParam(name= "ownerNo") String ownerNo) {
  
-		Gym gym = gymService.findByOwnerNo(ownerNo);
-		
+	 Optional<Owner> o = ownerRepository.findOwnerByOwnerNo(ownerNo);
+		Gym gym = o.get().getGym();
 		if (gym == null) {
 			// 로그인 안된 경우 할 일
 		}
