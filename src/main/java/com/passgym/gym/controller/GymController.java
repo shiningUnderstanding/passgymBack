@@ -8,6 +8,7 @@ import com.passgym.gym.entity.Gym;
 import com.passgym.gym.utility.GymDistanceCompare;
 import com.passgym.gym.utility.GymStarCampare;
 import com.passgym.gym.utility.GymUtility;
+import com.passgym.owner.entity.Owner;
 import com.passgym.pass.entity.Pass;
 import com.passgym.payment.entity.Payment;
 import com.passgym.repository.GymRepository;
@@ -127,29 +128,13 @@ public class GymController {
 
 	@CrossOrigin
 	@GetMapping("/gympass/user")
-	public Object UserInfoList(HttpSession session) {
+	public Object UserInfoList(@RequestParam String ownerNo) throws FindException {
  
-
-		String ownerId = "ownerid9";
-		String ownerPwd = "ownerp9";
-		Owner o = ownerRepository.findByIdAndPwd(ownerId, ownerPwd);
-		Gym gym = o.getGym();
-		session.setAttribute("loginInfo", gym); // 세션에 gym정보가 저장되어있다는 가정
-		//Gym gym = (Gym) session.getAttribute("loginInfo");
+		Gym gym = gymService.findByOwnerNo(ownerNo);
 		
-		//getmapping 으로 받아옴  @requestParm
-		 
-//		Owner sessionOwner = (Owner)session.getAttribute("ownerNo"); 
-		//String OwnerNo = sessionOwner.getOwnerNo();
-		//OwnerNo: 1000000001
-		
-		//Gym gym = (Gym) session.getAttribute("loginInfo");
-
 		if (gym == null) {
 			// 로그인 안된 경우 할 일
 		}
-//		Gym g = gym.getGym();
-
 		List<Pass> list = service.gymUserSelect(gym);
 		// logger.info("list.size=" + list.size());
 		// logger.info("0=" + list.get(0));
